@@ -1,0 +1,24 @@
+﻿@model Role
+@{
+    ViewData["Title"] = "NewRole";
+}
+
+
+<div class="row m-3">
+    <div class="col-8">
+        <h1>New Role</h1>
+    </div>
+</div>
+<form method="post">
+    <div class="row m-3">
+        <div class="col-8">
+            <span style="display:inline-block;">Name </span>
+            <input asp-for="Name" />
+        </div>
+    </div>
+    <div class="row ms-5 mx-3">
+        <div class="col-8">
+                <input type="submit" asp-action="AddRole" value="Add" />
+        </div>
+    </div>
+</form>

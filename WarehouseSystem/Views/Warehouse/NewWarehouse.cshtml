@@ -1,0 +1,105 @@
+﻿@model VMwarehouse
+@{
+    ViewData["Title"] = "NewWarehouse";
+}
+<script>
+    <script src="~/lib/jquery/dist/jquery.js" ></script>
+<script>
+    $(document).ready(function () {
+        $("#warehouseDTO_CountryId").change(function () {
+            $.ajax({
+                type: 'get',
+                url: '/WarehouseSystem/Warehouse/load?countryId=' + $("#warehouseDTO_CountryId").val(),
+                success:
+                    function (data) {
+                        $("#warehouseDTO_CityId option").remove()
+                        for (var i = 0; i < data.length; i++) {
+                            $("#warehouseDTO_CityId").append(`<option value=` + data[i].id + `>` + data[i].name + `</option>`)
+                        }
+                    },
+                error: function () {
+                    alert("error")
+                }
+            })
+        })
+    })
+</script>
+<h1>NewWarehouse</h1>
+<form method="post">
+    <div class="alert alert-primary" role="alert">
+        @ViewData["results"]
+    </div>
+
+    <div class="row mt-3">
+            <div style="margin-right:15px;">
+                <span>Name</span>
+
+            </div>
+            <div>
+            <input type="hidden" asp-for="warehouseDTO.Id" />
+                <input type="text" asp-for="warehouseDTO.Name" placeholder="Please enter Name" />
+
+            </div>
+    </div>
+
+    <div class="row mt-3">
+
+            <div style="margin-right:15px;">
+                <span>Description</span>
+
+            </div>
+            <div>
+                <input type="text" asp-for="warehouseDTO.Description" aspit placeholder="Description" />
+
+            </div>
+
+</div>
+
+    <div class="row mt-3">
+            <div style="margin-right:15px;">
+                <span>Country</span>
+
+            </div>
+            <div style="width:50%">
+                <select class="form-select form-select-sm" asp-for="warehouseDTO.CountryId" asp-items='new SelectList(Model.countryDTOs,"Id","Name")' aria-label=".form-select-sm example">
+                    <option selected>Choose Country</option>
+                </select>
+
+            </div>
+        </div>
+    <div class="row mt-3">
+
+            <div style="margin-right:15px;">
+                <span>City</span>
+
+            </div>
+            <div style="width:50%">
+                <select class="form-select form-select-sm" asp-for="warehouseDTO.CityId" asp-items='new SelectList(Model.cityDTOs,"Id","Name")' aria-label=".form-select-sm example">
+                    <option selected>Choose City</option>
+                </select>
+
+        </div>
+        </div>
+    <input type="hidden" asp-for="warehouseDTO.CreatedBy" />
+    <input type="hidden" asp-for="warehouseDTO.CreatedDAT" />
+
+    <div class="row">
+        <div class="col-8" style="padding:15px;">
+            @if ((bool)ViewData["WareHouse"] == false)
+            {
+                <input type="submit" asp-action="SaveData" value="Save" />
+
+            }
+            else
+            {
+                <input type="submit" asp-action="Updated" value="Update" />
+
+            }
+        </div>
+    </div>
+
+
+
+
+</form>
+

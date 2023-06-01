@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUsers> signInManager;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WareHouse System</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <link href="~/css/menustyle.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"> </script>
+    <link href="~/css/sidebars.css" rel="stylesheet" />
+    <script src="~/js/sidebars.js"> </script>
+
+</head>
+<body>
+
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+
+        <ul class="list-unstyled ps-0">
+            @if (signInManager.IsSignedIn(User))
+            {
+                @if (User.IsInRole("Manager") || User.IsInRole("Employee"))
+                {
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                            Warehouse
+                        </button>
+                        <div class="collapse show" id="home-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                @if (User.IsInRole("Manager"))
+                                {
+                                    <li><a asp-action="WarehouseList" asp-controller="Warehouse" class="link-dark rounded">Warehouses List</a></li>
+                                }
+                                @if (User.IsInRole("Employee"))
+                                {
+                        <li><a class="link-dark rounded" asp-action="ItemList1" asp-route-Name="@User.Identity.Name" asp-controller="Item">Items List</a></li>
+                                }
+                    </ul>
+                </div>
+            </li>}}
+            @if (signInManager.IsSignedIn(User))
+            {
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+Settings                </button>
+                <div class="collapse" id="dashboard-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a asp-action="CountryList" asp-controller="Country" class="link-dark rounded">Countries</a></li>
+                        <li><a asp-action="CityList" asp-controller="City" class="link-dark rounded">Cities</a></li>
+                        <li><a  class="link-dark rounded" asp-action="RoleList" asp-controller="Account">Roles</a></li>
+                        <li><a  class="link-dark rounded" asp-action="UserList" asp-controller="Account">Users</a></li>
+                    </ul>
+                </div>
+            </li>}}
+            <li><a asp-action="Logout" asp-controller="Account" class="link-dark rounded">LogOut</a></li>
+
+           
+        </ul>
+
+    </div>
+
+    <div  id="main">
+       
+        <button class="openbtn" onclick="openNav()">☰</button>
+        @RenderBody()
+    </div>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+
+</body>
+</html>

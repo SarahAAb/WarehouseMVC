@@ -1,0 +1,45 @@
+﻿@model VMCityDTO
+@{
+    ViewData["Title"] = "NewCity";
+}
+<h1>New City</h1>
+<form method="post">
+    <div class="row">
+        <div class="col-6 d-flex">
+            <div style="margin-right:15px;">
+                <span>Country</span>
+
+            </div>
+            <div style="width:50%">
+                <select class="form-select form-select-sm" asp-for="City.CountryId" asp-items='new SelectList(Model.countries,"Id","Name")' aria-label=".form-select-sm example">
+                    <option selected>Choose Country</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="col-6 d-flex">
+            <div style="margin-right:15px;">
+                <span>City</span>
+
+            </div>
+            <div>
+                <input type="hidden" asp-for="City.Id">
+                <input type="text" asp-for="City.Name" placeholder="Please enter City name" />
+            </div>
+
+        </div>
+    </div>
+    <div class="col-8 d-flex">
+        @if ((bool)ViewData["City"] == false)
+        {
+            <input type="submit" value="Save" asp-action="SaveData" class="btn btn-dark" />
+        }
+        else
+        {
+                    <input type="submit" value="Update" asp-action="Update" class="btn btn-dark" />
+
+        }
+
+    </div>
+
+</form>

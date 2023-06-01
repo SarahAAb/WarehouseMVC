@@ -1,0 +1,40 @@
+﻿@model List<CountryDTO>
+@{
+    ViewData["Title"] = "CountryList";
+}
+
+<form method="post">
+
+
+    <table class="table table-bordered table-stripped table-hover mt-3">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Options
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(CountryDTO item in Model)
+               { <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        <input type="submit" class="btn btn-success" value="Edit" asp-action="Edited" asp-route-Id="@item.Id" />
+                        <input type="submit" class="btn btn-danger" value="Delete" asp-action="Deleted" asp-route-Id="@item.Id" />
+                    </td>
+                </tr>}
+
+          </tbody>
+    </table>
+    <div>
+        <input type="submit" value="Add Country" class="btn btn-dark" asp-action="NewCountry" asp-controller="Country" />
+    </div>
+
+</form>
+
+<partial name="Paging" />

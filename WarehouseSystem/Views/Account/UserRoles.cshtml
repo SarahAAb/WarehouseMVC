@@ -1,0 +1,32 @@
+﻿@model List<UserRoles>
+
+@{
+	ViewData["Title"] = "UserRoles";
+}
+<form method="post">
+	<div class="card">
+		<div class="card-header">
+			@ViewData["Name"]
+		</div>
+		<div class="card-body">
+			@for (int i = 0; i < Model.Count; i++)
+
+			{
+
+
+				<div class="form-check">
+					<input type="hidden" asp-for="@Model[i].UserId">
+					<input type="hidden" asp-for="@Model[i].RoleId">
+					<input type="hidden" asp-for="@Model[i].RoleName">
+					<input class="form-check-input" type="checkbox" asp-for="@Model[i].IsSelected">
+					<label class="form-check-label">
+						@Model[i].RoleName
+					</label>
+				</div>
+			}
+		</div>
+		<div class="card-footer text-muted">
+			<input type="submit" value="Update" class="btn btn-primary" asp-action="UpdateRole">
+		</div>
+	</div>
+</form>

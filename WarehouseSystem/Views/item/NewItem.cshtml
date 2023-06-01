@@ -1,0 +1,103 @@
+﻿@model VMItemDTO
+@{
+    ViewData["Title"] = "NewItem";
+}
+<form method="post">
+    <div class="alert alert-primary" role="alert">
+        @ViewData["results"]
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-6 d-flex">
+            <div style="margin-right:15px;">
+                <span>Name</span>
+
+            </div>
+            <div>
+                <input type="hidden" asp-for="itemDTO.Id" />
+                <input type="text" asp-for="itemDTO.Name" placeholder="Please enter Item name" />
+
+            </div>
+        </div>
+        <div class="col-6 d-flex">
+            <div style="margin-right:15px;">
+                <span>Warehouse</span>
+
+            </div>
+            <div>
+                <select class="form-select form-select-sm" asp-for="itemDTO.Warehouse_Id" asp-items='new SelectList(Model.warehouseDTOs,"Id","Name")' aria-label=".form-select-sm example">
+                    <option selected>Choose Warehouse</option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-6 d-flex">
+            <div style="margin-right:15px;">
+                <span>KU Code</span>
+
+
+            </div>
+            <div>
+                <input type="text" asp-for="itemDTO.KUCode" placeholder="Please enter KU Code"/>
+            </div>
+        </div>
+        <div class="col-6 d-flex">
+            <div style="margin-right:15px;">
+                <span>QTY</span>
+            </div>
+            <div>
+
+                <input type="number" asp-for="itemDTO.QTY"/>
+                <span asp-validation-for="itemDTO.QTY"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-6 d-flex">
+            <div style="margin-right:15px;">
+
+                <span>Cost Price</span>
+            </div>
+            <div>
+                <input type="text" asp-for=itemDTO.CostPrice placeholder="Please enter Cost Price" />
+                <span asp-validation-for="itemDTO.CostPrice"></span>
+            </div>
+        </div>
+        <div class="col-6 d-flex">
+
+            <div style="margin-right:15px;">
+
+                <span>MSRP Price</span>
+            </div>
+            <div>
+                <input type="text" asp-for=itemDTO.MSRPPrice placeholder="Please enter MSPR Price" />
+
+            </div>
+
+            <div>
+
+                <input type="hidden" asp-for="itemDTO.CreatedBy"/>
+                <input type="hidden" asp-for="itemDTO.CreatedDAT" />
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8" style="padding:15px;">
+            @if ((bool)ViewData["Item"] == false)
+            {
+                <input type="submit" asp-action="SaveData" value="Save" />
+
+            }
+            else
+            {
+                <input type="submit" asp-action="Updated" value="Update" />
+
+            }
+        </div>
+    </div>
+</form>

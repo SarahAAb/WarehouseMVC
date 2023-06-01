@@ -1,0 +1,99 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUsers> signInManager;
+@model List<ItemDTO>
+@{
+    ViewData["Title"] = "itemList";
+}
+@{
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+
+    }
+}
+<h1>Item List</h1>
+<form method="post">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+
+                <th>
+                Name    
+                </th>
+                <th>
+                    Options
+                </th>
+            </tr>
+
+        </thead>
+        <tbody>
+            @foreach (ItemDTO item in Model)
+            {
+                @if (item.IsDeleted == false)
+                {
+                    <tr>
+                        <td>
+                        @item.Name
+                    </td>
+                    <td>
+                            @if (signInManager.IsSignedIn(User))
+                            {
+                                @if (User.IsInRole("Employee"))
+                                {
+                                    <input type="submit" class="btn btn-success" value="Edit" asp-action="Edited" asp-route-Id="@item.Id"/>
+                                    <input type="submit" class="btn btn-danger" value="Delete" asp-action="Deleted" asp-route-Id="@item.Id" />
+                                }
+
+                            }
+                        </td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div>
+        @if (signInManager.IsSignedIn(User))
+        {
+            @if (User.IsInRole("Employee"))
+            {
+                <input type="submit" value="Add item" class="btn btn-dark" asp-action="NewItem" />
+            }
+
+        }
+    </div>
+
+</form>
+
+
+<div class="container">
+    @if (pager.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @if (pager.CurrentPage > 1)
+            {
+                <li class="page-item"></li>
+                <a class="page-link" asp-action="ItemList" asp-controller="Item" asp-route-pg="1">First</a>
+                <li class="page-item"></li>
+                <a class="page-link" asp-action="ItemList" asp-controller="Item" asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
+
+            }
+            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge==pager.CurrentPage? "active":")")"></li>
+                <a class="page-link" asp-action="ItemList" asp-controller="Item" asp-route-pg="@pge">@pge</a>
+            }
+            @if (pager.CurrentPage < pager.TotalPages)
+            {
+                <li class="page-item"></li>
+                <a class="page-link" asp-action="ItemList" asp-controller="Item" asp-route-pg="@(pager.CurrentPage-1)">Next</a>
+                <li class="page-item"></li>
+                <a class="page-link" asp-action="ItemList" asp-controller="Item" asp-route-pg="@(pager.TotalPages)">Last</a>
+
+            }
+
+        </ul>
+    }
+</div>

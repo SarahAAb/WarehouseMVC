@@ -1,0 +1,57 @@
+﻿@model VMSignUp
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create Account</title>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+</head>
+<body>
+    <form method="post">
+       <div class="alert alert-primary" role="alert">
+            @ViewData["result"]
+        </div>
+
+        <div class="mb-3 ms-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" asp-for=signup.FullName placeholder="name">
+        </div>
+        <div class="mb-3 ms-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" asp-for=signup.Email placeholder="email@email.com">
+        </div>
+        <div class="mb-3 ms-3" style="width:50%">
+            <label class="form-label">Warehouse</label>
+
+                <select class="form-select form-select-sm" asp-for="signup.Warehouse_Id" asp-items='new SelectList(Model.Warehouses,"Id","Name")' aria-label=".form-select-sm example">
+                    <option selected>Choose Warehouse</option>
+                </select>
+
+        </div>       
+        <div class="mb-3 ms-3">
+            <label class="form-label">Password</label>
+            <input type="password" class="form-control" asp-for="signup.Password" placeholder="password">
+            <span asp-validation-for="signup.Password"></span>
+
+        </div>
+        <div class="mb-3 ms-3">
+            <label class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" asp-for="signup.ConfirmPassward" placeholder="Confirm Password">
+        </div>
+        <div class="mb-3 ms-3">
+            <input type="submit" value="Create Account" class="btn btn-primary" asp-action="SignUp" />
+        </div>
+    </form>
+
+</body>
+</html>
